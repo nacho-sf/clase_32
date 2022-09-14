@@ -1,5 +1,10 @@
 # Teoría clase_32
 
+
+ANTES DE CREAR LOS ARCHIVOS .JSX DE LA CLASE ANTERIOR, SE CREA LA ESTRUCTURA DE CARPETAS QUE VAMOS A VER AHORA. COMO YA LO TENEMOS CREADO, CON FINES DIDÁCTICOS SE VAN A MOVER LOS ARCHIVOS EN LUGAR DE CREARLOS DE 0.
+
+
+
 Diferencia entre el DOM del navegador y el DOM virtual: Hasta que no se pinten todas las tarjetas y no esté estable el DOM virtual, no se actualiza el DOM del navegador (que es el que vemos nosotros en pantalla)
 
 Hay que ordenar los componentes en carpetas. El sistema de carpetas/archivos dependerá del proyecto:
@@ -26,3 +31,13 @@ En App.js cambiamos las rutas de importación:
 
 import Header from './Header'; --> import Header from './components/Header/Header';
 con main y footer se hace igual
+
+En Main.jsx y ProductList.jsx también habrá que cambiar las rutas de importación.
+
+
+
+
+El día anterior usábamos this.props para pasar atributos de componentes padre a hijo (transferecia de datos). Este es el método de comunicación entre padre-hijo más sencillo de todos los que veremos. Para visualizarlo mejor, dividir pantallas de ProductList.jsx y ProductItem.jsx
+
+
+MIN 01:02:45 --> Siguente método de comunicación: STATE
