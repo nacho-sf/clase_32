@@ -4,6 +4,8 @@
 ANTES DE CREAR LOS ARCHIVOS .JSX DE LA CLASE ANTERIOR, SE CREA LA ESTRUCTURA DE CARPETAS QUE VAMOS A VER AHORA. COMO YA LO TENEMOS CREADO, CON FINES DIDÁCTICOS SE VAN A MOVER LOS ARCHIVOS EN LUGAR DE CREARLOS DE 0.
 
 
+TODO LO QUE ESTÁ ENTRE LLAVES "{}" ES JS
+
 
 Diferencia entre el DOM del navegador y el DOM virtual: Hasta que no se pinten todas las tarjetas y no esté estable el DOM virtual, no se actualiza el DOM del navegador (que es el que vemos nosotros en pantalla)
 
@@ -41,3 +43,116 @@ El día anterior usábamos this.props para pasar atributos de componentes padre 
 
 
 MIN 01:02:45 --> Siguente método de comunicación: STATE
+
+State es una especie de memoria que tiene el componente dentro de sí.
+
+Se usa el método "constructos" (el mismo que en las clases ECMASC6)
+
+Nos generamos un contructor en "ProductItem.jsx", justo encima del render(1ºconstructor, 2ºmétodos), utilizando los atajos de React --> "rconst" y se pincha en sugeridos.
+
+En el constructor, los parámetros "props" por ahora no se usarán pero se pueden dejar ahí:
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+        first
+        }
+    }
+
+
+Otra propiedad de la clase es "this.state", y se usa para guardar un estado de una clave o variable.
+
+Por ejemplo, el name del producto
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       name: "Producto Medias Query"
+    }
+  }
+
+Y se accede a esto en la parte de render:
+
+  render() {
+    return (
+      <article>
+        <h2>{this.state.name}</h2>
+        <h3>{this.props.info}</h3>
+        <p>Price: {this.props.price}€</p>
+      </article>
+    )
+  }
+}
+
+
+Si se entra en el arbol de componentes, aparecerá una nueva sección, junto a props, que será state e indica el estado del componente y lo guarda como si fuera una pequeña memoria.
+
+
+Entondes tenemos que "name" sería el nombre por defecto que viene para todos los productos. Pero podemos especificar  a qué productos le pasamos un nombre específico y a cuales le dejamos el nombre por defecto:
+
+En ProductList.jsx añadimos a los archivos XML <ProductItem> el atributo name={"Nombre específico"}. Para el ejemplo, añadiremos name a los dos primeros y el tercero lo dejaremos sin el atributo name.
+
+Luego, en ProductItem.jsx, en el constructor, tenemos:
+
+this.state = {
+      name: "Producto Medias Query"
+    }
+  }
+
+Añadimos:
+
+this.state = {
+      name: this.props.name || "Producto Medias Query"
+    }
+  }
+
+Lo que hemos hecho es que si le pasas los datos toma de props, y si toma el nombre por defecto.
+
+
+
+
+Ahora vamos a hacer 2 refactorizaciones del código:
+
+
+1ª REFACTORIZACIÓN:
+ Cuando empiezas a tener muchas propiedades, en lugar de tener en ProductList.jsx las propiedades en cada uno de los XML, las puedes guardar en un array de objetos aparte. Ejemplo: Cuando pasas datos de un componente a otro, quizás tienes que pasarle 200 datos y no es viable hacerlo manualmente y el código quedaría muy largo. Este array luego se puede pasar por un bucle y pintarlo de una atacada.
+
+
+const data = [
+    {name:"Tigre de Bengala",info:"Botella Moet con Bengala",price:20},
+    {name:"Corona party",info:"Cubo de 5 coronitas",price:10},
+    {info:"Botella deabsenta con agua",price:40}
+];
+
+Esto se pega justo debajo de render.
+
+Luego se comenta el código del return que está entre las etiquetas <section> (fines didácticos), y se sustituye esta funcionalidad escribiendo otros tres XML, llamando al array de objetos con las propiedades: <ProductItem data = {data[0]}>
+
+Entonces, tenemos que data[0] es el objeto entero de la primera posición. Para acceder a los name de cada uno de los objetos debemos añadir "data" en el constructor de ProductItem.jsx: "name:this.props.data.name", así como en las declaraciones en el render
+
+
+
+
+2ª REFACTORIZACIÓN:
+En ProductList.jsx tenemos tres items. Esto es código que se repite 3 veces, así que se va a utilizar el método MAP para que pinte cada uno de los elementos:
+
+{products.map(product => )} -> En el return de esta callback function se escribe lo que se quirer hacer con cada uno de los elementos "product".
+
+Entonces:
+
+{products.map(product => <ProductItem data={product}/>)}
+
+products es un array de objetos. El MAP va a tomar 1 a 1 los objetos de ese array y va a ir guardando cada objeto en la variable product para que se pueda usar.
+
+Así que se vuelve a comentar el código con los tres objetos:
+
+<ProductItem data = {products[0]}/>
+<ProductItem data = {products[1]}/>
+<ProductItem data = {products[2]}/>
+
+Y, en su lugar, se pega la declaración MAP desarrollada anteriormente, que hará lo mismo pero con menos líneas de código.
+
+
+MIN. 1:41:00
