@@ -155,4 +155,50 @@ Así que se vuelve a comentar el código con los tres objetos:
 Y, en su lugar, se pega la declaración MAP desarrollada anteriormente, que hará lo mismo pero con menos líneas de código.
 
 
-MIN. 1:41:00
+
+
+
+A continuación, vamos a crear la función paintProducts(), encima de render(), para llevarme la lógica del return <section> (que pinta los productos) a la nueva función para luego solo tener que invocarlo.
+
+Los datos del objeto "products" que hemos creado probablemente vendrán de un fetch a una API externa. Entonces, cuando haces esa carga de datos, donde se suele meter es en un "State", así que vamos a generar un constructor para meterlo en un state (justo encima de paintProducts()) -> rconst.
+
+Movemos el objeto products dentro de this.state (del constructor) y lo adaptamos (devajo de render se deja comentado con fines didácticos)
+
+La idea de colocar los datos en el constructor es que estos esarían accesibles desde cualquier parte de la aplicación. Antes estaba dentro del método render, y al ser una variable dentro de un método no puedo usarla fuera. Entonces, en un futuro no solo querré pintar procucto, sino tambien crear, editar, borrar... Entonces al método render (que se quiere para renderizar) se le pararán los datos pero no desde ahí, sino desde un sitio accesible para todod -> constructor/state.
+
+
+A continuación, la lógica dentro del return de render la llevo a su función paintProduct() y le cambiamos la ruta de acceso (ahora los datos están en un objeto)
+
+
+
+Hasta ahora, lo que tenemos en ProductList.jsx es una clase, con un constructor, un método para pintar productos y un méotod para renderizar.
+
+Entonces tengo que llamar a la función paintProducts() dentro de render()/<section> para renderizar los datos pintados -> {this.paintProducts()}
+
+Refactorizamos la función paintProducts a función flecha.
+
+Es preferible usar funciones flecha para evitar problemas de bind (unión), porque en las versiones antiguas, si no ponías en el constructor la línea "this.functionName = this.functionName.bind(this)" que es para unir al this la función, no funcionaba. Es posible que si clonamos algún proyecto antiguo de React nos encontremos este problema.
+
+
+
+Manejando el DOM desde React no hace falta (y no es recomendable) usar selectores como getElementById, querySelector, createElement, innerHTML... porque pueden dar problemas en el DOM virtual
+
+
+
+
+Si ejecutamos esto, nos dará un error que dice que cada hijo en una lista debería tener una única "key" prop (un único id para cada item, para tenerlo identificado)- Entonces hay que pasarle una prop "key" unica a cada elemento dentro del bucle.
+
+En el método MAP, el segúndo parámetro te devuelve el índice (la posición por la que va la iteración). Entonces, a la función paintProducts() lo añadimos:
+
+-Esto
+paintProducts = () => this.state.products.map(product => <ProductItem data={product}/>)
+
+-Por esto:
+paintProducts = () => this.state.products.map((product, i) => <ProductItem data={product} key={i}/>)
+
+
+Sin embargo, vamos a usar una librería generadora de identificadores únicos:
+
+-Buscamos en google "npm uuid". Se instala en la terminal -> npm i uuid. Para usarlo se importa, y se invoca en la función paintProduct(), se escribe dentro de la prop "key={uuidv4()}"
+
+En el arbol de componentes vemos la prop key que tenemos claves únicas autogeneradas
